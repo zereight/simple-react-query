@@ -61,7 +61,7 @@ const {
 1. enabled: auto fetch, when useQuery called
 2. query: fetch function
 3. onSuccess (optional): action after query fetched successfully
-4. refetchInterval (optional): refetch interval (background ok)
+4. refetchInterval (optional): refetch interval (ms)(background ok)
 5. isEqualToPrevDataFunc (optional): when newData fetched, isEqualToPrevDataFunc called with (newData, prevData), if false update newData, true don't update newData because it is same.
 
 #### Returns
@@ -105,4 +105,4 @@ const { isLoading, isError, error, data, mutation } = useMutation<
 
 ## Has Better Idea?
 
-- When you want another method, contact definedable@gmail.com or custom yourself this code is very simple!
+- When you want another method, contact definedable@gmail.com or custom yourself this code. It is very simple!
