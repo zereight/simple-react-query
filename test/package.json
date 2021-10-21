@@ -36,7 +36,8 @@
   "dependencies": {
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "simple-react-query": "^0.0.1",
+    "react-query": "^3.27.0",
+    "simple-react-query": "^0.0.2",
     "styled-components": "^5.3.3"
   },
   "scripts": {
