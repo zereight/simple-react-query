@@ -1,13 +1,13 @@
-
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
-  entry: ["./src/index.tsx"],
+  entry: ["./src/index.ts"],
   output: {
     path: path.resolve(__dirname, "dist/js"),
-    filename: "bundle.js"
+    filename: "bundle.js",
+    clean: true
   },
   module: {
     rules: [
@@ -25,7 +25,7 @@ module.exports = {
                     runtime: "automatic"
                   }
                 ],
-                "@babel/preset-typescript",
+                "@babel/preset-typescript"
               ],
               plugins: ["@babel/plugin-transform-runtime"]
             }
