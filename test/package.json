@@ -1,20 +1,10 @@
 {
-  "name": "simple-react-query",
-  "version": "0.0.2",
-  "description": "Use react query lightly.",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "repository": "https://github.com/zereight/simple-react-query.git",
-  "author": "zereight",
-  "keywords": [
-    "react",
-    "react-query",
-    "light",
-    "simple"
-  ],
-  "files": [
-    "dist"
-  ],
+  "name": "something-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "repository": "",
+  "author": "",
   "license": "MIT",
   "devDependencies": {
     "@babel/cli": "^7.15.7",
@@ -29,6 +19,7 @@
     "@typescript-eslint/eslint-plugin": "^5.1.0",
     "@typescript-eslint/parser": "^5.1.0",
     "babel-loader": "^8.2.3",
+    "clean-webpack-plugin": "^4.0.0",
     "eslint": "^8.0.1",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-config-prettier": "^8.3.0",
@@ -45,10 +36,11 @@
   "dependencies": {
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "simple-react-query": "^0.0.1",
     "styled-components": "^5.3.3"
   },
   "scripts": {
     "start": "webpack serve",
-    "build": "webpack && tsc"
+    "build": "webpack"
   }
 }
