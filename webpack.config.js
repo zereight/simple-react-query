@@ -1,17 +1,16 @@
 const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-module.exports = {
-  entry: ["./src/index.ts"],
+const config = {
+  entry: "./src/index.ts",
   output: {
-    path: path.resolve(__dirname, "dist/js"),
-    filename: "bundle.js",
+    path: path.resolve(__dirname, "dist"),
+    filename: "index.js",
     clean: true
   },
   module: {
     rules: [
       {
-        test: /.(tsx|ts|js|jsx)$/,
+        test: /\.(ts|tsx|js|jsx)$/,
         use: [
           {
             loader: "babel-loader",
@@ -26,7 +25,7 @@ module.exports = {
                 ],
                 "@babel/preset-typescript"
               ],
-              plugins: ["@babel/plugin-transform-runtime"]
+              plugins: ["@babel/transform-runtime"]
             }
           }
         ],
@@ -34,21 +33,12 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: "./public/index.html"
-    })
-  ],
+  plugins: [],
   resolve: {
-    extensions: [".ts", ".tsx", ".js", ".jsx", "css", "scss"]
+    extensions: [".tsx", ".ts", ".jsx", ".js"]
   },
-  devtool: "source-map",
-  mode: "development",
-  devServer: {
-    host: "localhost",
-    port: 3000,
-    historyApiFallback: true,
-    open: true,
-    hot: true
-  }
+  mode: "production",
+  devtool: "source-map"
 };
+
+module.exports = config;

@@ -1,20 +1,17 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "esnext",
-    "allowJs": true,
-    "jsx": "react-jsx",
-    "sourceMap": true,
     "outDir": "./dist",
-    "strict": true,
-    "moduleResolution": "node",
+    "module": "commonjs",
+    "target": "esnext",
+    "lib": ["es6", "dom", "es2016", "es2017", "ESNext"],
+    "jsx": "react",
+    "sourceMap": true,
     "declaration": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "noImplicitAny": true,
     "strictNullChecks": true,
-    "noImplicitReturns": true
+    "noImplicitAny": true,
+    "removeComments": true,
+    "typeRoots": ["index.d.ts", "node_modules/@types"]
   },
   "include": ["./src/**/*"]
 }
