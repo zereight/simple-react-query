@@ -20,7 +20,7 @@
 
 ### 4. useMutation is different from useQuery
 
-- useMutation은 .mutateAsync 호출시 에러를 throw했을때 try/catch로 잡아줘야하는 반면, useQuery는 에러를 throw했을떄 error 객체에 자동으로 반영되어서 사용의 일관성이 없음.
+- useMutation은 .mutateAsync 호출시 에러를 throw했을때 try/catch로 잡아줘야하는 반면, useQuery는 에러를 throw했을떄 error 객체에 자동으로 반영되어서 사용의 일관성이 없습니다.
 
 ## Introduce
 
@@ -50,6 +50,7 @@ const {
 } = useQuery<TypeOfResponseData>({
   enabled: true,
   query: () => fetch(...),
+  initialData: true,
   onSuccess: () => console.log("fetch success!"),
   refetchInterval: 5000,
   isEqualToPrevDataFunc: (a,b) => a.id === b.id
@@ -61,8 +62,9 @@ const {
 1. enabled: auto fetch, when useQuery called
 2. query: fetch function
 3. onSuccess (optional): action after query fetched successfully
-4. refetchInterval (optional): refetch interval (ms)(background ok)
-5. isEqualToPrevDataFunc (optional): when newData fetched, isEqualToPrevDataFunc called with (newData, prevData), if false update newData, true don't update newData because it is same.
+4. initialData (optional): set initial data
+5. refetchInterval (optional): refetch interval (ms)(background ok)
+6. isEqualToPrevDataFunc (optional): when newData fetched, isEqualToPrevDataFunc called with (newData, prevData), if false update newData, true don't update newData because it is same.
 
 #### Returns
 

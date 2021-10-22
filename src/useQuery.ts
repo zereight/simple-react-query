@@ -4,6 +4,7 @@ interface Props {
   enabled: boolean;
   query: (props?: any) => Promise<any>;
   onSuccess?: () => void;
+  initialData?: any;
   refetchInterval?: number;
   isEqualToPrevDataFunc?: (prev: any, curr: any) => boolean;
 }
@@ -12,6 +13,7 @@ export const useQuery = <T>({
   enabled,
   query,
   onSuccess,
+  initialData,
   refetchInterval,
   isEqualToPrevDataFunc
 }: Props) => {
@@ -19,7 +21,7 @@ export const useQuery = <T>({
   const [isError, setIsError] = useState(false);
   const [isFetched, setIsFetched] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  const [data, setData] = useState<T>();
+  const [data, setData] = useState<T>(initialData);
   const timeIdRef = useRef<NodeJS.Timer | null>(null);
 
   const refetch = async () => {
