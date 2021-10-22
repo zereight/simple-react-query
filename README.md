@@ -106,6 +106,12 @@ const { isLoading, isError, error, data, mutation } = useMutation<
 4. error: error object
 5. mutation: wrapped async fetch function, use this function instead fetch
 
+## Install
+
+```
+yarn add simple-react-query
+```
+
 ## Has Better Idea?
 
 - When you want another method, contact definedable@gmail.com or custom yourself this code. It is very simple!
