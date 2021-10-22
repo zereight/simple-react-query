@@ -31,6 +31,7 @@
 - no caching
 - no Provider
 - refetchInterval & clearRefetchInterval
+- setting initialData
 
 ## Use
 
@@ -50,7 +51,7 @@ const {
 } = useQuery<TypeOfResponseData>({
   enabled: true,
   query: () => fetch(...),
-  initialData: true,
+  initialData: {},
   onSuccess: () => console.log("fetch success!"),
   refetchInterval: 5000,
   isEqualToPrevDataFunc: (a,b) => a.id === b.id
