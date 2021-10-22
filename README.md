@@ -6,14 +6,14 @@
 
 - 리액트 쿼리는 무겁습니다
 
-### 2. too many method, but i need some method
+### 2. too many methods, but i need some methods
 
 - 리액트 쿼리는 너무 많은 기능을 제공합니다.
 - 나는 단지 비동기 상태관리를 하고싶을 뿐인데, 비동기에 대한 모든 도구와 설명을 제공해줍니다.
 - 캐싱을 기본적으로 해서, 가끔씩 예상치 못한 동작을 수행합니다.
 - 대부분의 기능은 필요없거나, 스스로 충분히 구현가능합니다.
 
-### 3. when bug occurred, debugging is hell
+### 3. when bugs occurred, debugging is hell
 
 - 리액트 쿼리의 내부 동작을 알 수 없습니다.
 - 어플리케이션이 복잡할수록, 버그가 발생했을때 디버깅하기 복잡합니다.
@@ -32,6 +32,7 @@
 - no Provider
 - refetchInterval & clearRefetchInterval
 - setting initialData
+- Unpacked Size: 12.7kb (react-query => 2.18mb)
 
 ## Use
 
