@@ -18,7 +18,6 @@ export const useQuery = <T>({
   isEqualToPrevDataFunc
 }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
   const [isFetched, setIsFetched] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [data, setData] = useState<T>(initialData);
@@ -27,7 +26,6 @@ export const useQuery = <T>({
   const refetch = async () => {
     try {
       setIsLoading(true);
-      setIsError(false);
 
       const newData = await query();
 
@@ -40,13 +38,12 @@ export const useQuery = <T>({
       }
 
       await onSuccess?.();
-      setIsFetched(true);
     } catch (error) {
       if (!(error instanceof Error)) return;
 
-      setIsError(true);
       setError(error);
     } finally {
+      setIsFetched(true);
       setIsLoading(false);
     }
   };
@@ -60,7 +57,7 @@ export const useQuery = <T>({
   }, []);
 
   useEffect(() => {
-    if (timeIdRef.current) clearInterval(timeIdRef.current);
+    clearRefetchInterval();
     if (refetchInterval === undefined) return;
 
     timeIdRef.current = setInterval(() => {
@@ -68,18 +65,18 @@ export const useQuery = <T>({
     }, refetchInterval);
 
     return () => {
-      if (timeIdRef.current) clearInterval(timeIdRef.current);
+      clearRefetchInterval();
     };
   }, []);
 
   return {
     refetch,
     isLoading,
-    isError,
+    isError: !!error && isFetched,
+    isSuccess: !error && isFetched,
     data,
     error,
     setData,
-    isSuccess: !isError,
     clearRefetchInterval,
     isFetched
   };
