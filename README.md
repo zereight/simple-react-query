@@ -22,6 +22,15 @@
 
 - useMutation은 .mutateAsync 호출시 에러를 throw했을때 try/catch로 잡아줘야하는 반면, useQuery는 에러를 throw했을떄 error 객체에 자동으로 반영되어서 사용의 일관성이 없습니다.
 
+### 5. useQuery data type must include "undefined"
+
+- react-query의 useQuery data타입은 항상 undefined 타입을 union으로 추가합니다.
+- 예를들어, useQuery의 타입을 string으로 두면 string | undefined의 data타입을 가지고 initialData를 null 로 설정하면 data 타입이 string | null | undefined 가 됩니다.
+
+### 6. difficult to cancel refreshInterval setting
+
+- react-query의 refreshInterval은 주기적인 요청을 보낼 수 있지만, 해당 주기인 요청을 취소하려면 axios의 cancel 기능을 사용해야 하는 등의 복잡한 구현이 필요합니다.
+
 ## Introduce
 
 ### simple-react-query's feature
