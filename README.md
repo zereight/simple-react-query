@@ -10,7 +10,6 @@
 
 - 리액트 쿼리는 너무 많은 기능을 제공합니다.
 - 나는 단지 비동기 상태관리를 하고싶을 뿐인데, 비동기에 대한 모든 도구와 설명을 제공해줍니다.
-- 캐싱을 기본적으로 해서, 가끔씩 예상치 못한 동작을 수행합니다.
 - 대부분의 기능은 필요없거나, 스스로 충분히 구현가능합니다.
 
 ### 3. when bugs occurred, debugging is hell
@@ -31,19 +30,34 @@
 
 - react-query의 refreshInterval은 주기적인 요청을 보낼 수 있지만, 해당 주기인 요청을 취소하려면 axios의 cancel 기능을 사용해야 하는 등의 복잡한 구현이 필요합니다.
 
+### 7. react-query caching is default
+
+- 캐싱을 기본적으로 해서, 가끔씩 예상치 못한 동작을 수행합니다.
+
 ## Introduce
 
 ### simple-react-query's feature
 
 - simple useQuery
 - simple useMutation
-- no caching
-- no Provider
-- refetchInterval & clearRefetchInterval
+- simple refetchInterval & clearRefetchInterval
 - setting initialData
+- caching is not default
 - Unpacked Size: 12.7kb (react-query => 2.18mb)
 
 ## Use
+
+### QueryClient
+
+QueryClient has queryCache.
+
+```tsx
+import { QueryClient, QueryClientProvider } from "simple-react-query";
+
+<QueryClientProvider value={QueryClient}>
+  <App />
+</QueryClientProvider>;
+```
 
 ### useQuery
 
@@ -64,7 +78,9 @@ const {
   initialData: {},
   onSuccess: () => console.log("fetch success!"),
   refetchInterval: 5000,
-  isEqualToPrevDataFunc: (a,b) => a.id === b.id
+  isEqualToPrevDataFunc: (a,b) => a.id === b.id,
+  cacheTime: 5000,
+  queryKeys: ["User", "id"]
 });
 ```
 
@@ -76,13 +92,15 @@ const {
 4. initialData (optional): set initial data
 5. refetchInterval (optional): refetch interval (ms)(background ok)
 6. isEqualToPrevDataFunc (optional): when newData fetched, isEqualToPrevDataFunc called with (newData, prevData), if false update newData, true don't update newData because it is same.
+7. cacheTime (optional): caching time useQuery's return data. (ms) default is 0.
+8. queryKeys (optional): caching is decided by queryKeys. It must be array.
 
 #### Returns
 
 1. refetch: refetch query
 2. isLoading: fetch is not complete
 3. isError: fetch has error
-4. data: fetch's return data
+4. data: fetch's return data (or cached data)
 5. error: error object
 6. setData: update data state
 7. isSuccess: fetch is complete successfully
