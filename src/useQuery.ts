@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 
-interface Props {
+interface Props<ResponseData> {
   enabled: boolean;
-  query: (props?: any) => Promise<any>;
+  query: (props?: ResponseData) => Promise<ResponseData>;
   onSuccess?: () => void;
-  initialData?: any;
+  initialData?: ResponseData;
   refetchInterval?: number;
-  isEqualToPrevDataFunc?: (prev: any, curr: any) => boolean;
+  isEqualToPrevDataFunc?: (
+    prev: ResponseData | undefined,
+    curr: ResponseData
+  ) => boolean;
 }
 
 export const useQuery = <T>({
@@ -16,11 +19,11 @@ export const useQuery = <T>({
   initialData,
   refetchInterval,
   isEqualToPrevDataFunc
-}: Props) => {
+}: Props<T>) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isFetched, setIsFetched] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  const [data, setData] = useState<T>(initialData);
+  const [data, setData] = useState<T | undefined>(initialData);
   const timeIdRef = useRef<NodeJS.Timer | null>(null);
 
   const refetch = async () => {
