@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useQueryClient } from "./QueryClient";
 
 interface Props<ResponseData> {
   enabled: boolean;
@@ -10,6 +11,8 @@ interface Props<ResponseData> {
     prev: ResponseData | undefined,
     curr: ResponseData
   ) => boolean;
+  cacheTime?: number;
+  queryKeys?: string[];
 }
 
 export const useQuery = <T>({
@@ -18,13 +21,46 @@ export const useQuery = <T>({
   onSuccess,
   initialData,
   refetchInterval,
-  isEqualToPrevDataFunc
+  isEqualToPrevDataFunc,
+  cacheTime = 0,
+  queryKeys
 }: Props<T>) => {
+  const queryClientContext = useQueryClient();
+  const queryKeyString = queryKeys ? JSON.stringify(queryKeys) : "";
+  const hasCache =
+    queryKeyString && !!queryClientContext.queryCaches[queryKeyString];
+
   const [isLoading, setIsLoading] = useState(false);
   const [isFetched, setIsFetched] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<Error | undefined>();
   const [data, setData] = useState<T | undefined>(initialData);
-  const timeIdRef = useRef<NodeJS.Timer | null>(null);
+  const intervalTimeIdRef = useRef<NodeJS.Timer | null>(null);
+  const cacheTimeIdRef = useRef<NodeJS.Timer | null>(null);
+
+  const clearRefetchTimeInterval = () => {
+    if (intervalTimeIdRef.current) clearInterval(intervalTimeIdRef.current);
+  };
+
+  const clearCacheTimeout = () => {
+    if (cacheTimeIdRef.current) clearTimeout(cacheTimeIdRef.current);
+  };
+
+  const doRefetchTimeInterval = () => {
+    clearRefetchTimeInterval();
+    if (refetchInterval === undefined) return;
+
+    intervalTimeIdRef.current = setInterval(() => {
+      refetch();
+    }, refetchInterval);
+  };
+
+  const doCacheTimeout = (data: T) => {
+    clearCacheTimeout();
+    queryClientContext.queryCaches[queryKeyString] = data;
+    cacheTimeIdRef.current = setTimeout(() => {
+      delete queryClientContext.queryCaches[queryKeyString];
+    }, cacheTime);
+  };
 
   const refetch = async () => {
     try {
@@ -41,6 +77,8 @@ export const useQuery = <T>({
       }
 
       await onSuccess?.();
+
+      doCacheTimeout(newData);
     } catch (error) {
       if (!(error instanceof Error)) return;
 
@@ -51,24 +89,17 @@ export const useQuery = <T>({
     }
   };
 
-  const clearRefetchInterval = () => {
-    if (timeIdRef.current) clearInterval(timeIdRef.current);
-  };
-
   useEffect(() => {
+    if (hasCache) return;
     if (enabled) refetch();
   }, []);
 
   useEffect(() => {
-    clearRefetchInterval();
-    if (refetchInterval === undefined) return;
-
-    timeIdRef.current = setInterval(() => {
-      refetch();
-    }, refetchInterval);
+    doRefetchTimeInterval();
 
     return () => {
-      clearRefetchInterval();
+      clearRefetchTimeInterval();
+      clearCacheTimeout();
     };
   }, []);
 
@@ -77,10 +108,12 @@ export const useQuery = <T>({
     isLoading,
     isError: !!error && isFetched,
     isSuccess: !error && isFetched,
-    data,
+    data: hasCache
+      ? (queryClientContext.queryCaches[queryKeyString] as T | undefined)
+      : data,
     error,
     setData,
-    clearRefetchInterval,
+    clearRefetchTimeInterval,
     isFetched
   };
 };

@@ -1,11 +1,11 @@
 {
   "name": "simple-react-query",
-  "version": "0.0.16",
+  "version": "0.1.0",
   "description": "Use react query lightly.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "repository": "https://github.com/zereight/simple-react-query.git",
-  "author": "zereight",
+  "author": "zereight (definedable@gmail.com)",
   "keywords": [
     "react",
     "react-query",
