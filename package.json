@@ -1,6 +1,6 @@
 {
   "name": "simple-react-query",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Use react query lightly.",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
